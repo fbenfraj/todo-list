@@ -1,12 +1,16 @@
 {
-  "name": "front",
+  "name": "client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bootstrap": "^4.3.1",
     "react": "^16.10.2",
-    "react-bootstrap": "^1.0.0-beta.14",
     "react-dom": "^16.10.2",
-    "react-scripts": "3.2.0"
+    "react-scripts": "3.2.0",
+    "reactstrap": "^8.0.1",
+    "styled-components": "^4.4.0",
+    "uuid": "^3.3.3",
+    "validator": "^11.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -28,5 +32,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/reactstrap": "^8.0.5",
+    "@types/styled-components": "^4.1.19",
+    "@types/uuid": "^3.4.5",
+    "@types/validator": "^10.11.3"
   }
 }
