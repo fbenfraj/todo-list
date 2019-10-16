@@ -1,0 +1,31 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "TODO List API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index",
+    "dev": "nodemon -L"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fbenfraj/todo-list.git"
+  },
+  "keywords": [
+    "todo",
+    "list",
+    "nodejs"
+  ],
+  "author": "BEN FRAJ Farouk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fbenfraj/todo-list/issues"
+  },
+  "homepage": "https://github.com/fbenfraj/todo-list#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1"
+  }
+}
