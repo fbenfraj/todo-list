@@ -1,14 +1,25 @@
 const { User } = require('../models/UserModel');
+const bcrypt = require('bcryptjs');
 
-const createUser = (req, res) => {
-  User.create({
+const createUser = async (req, res) => {
+  const hashedPassword = await bcrypt
+    .genSalt(10)
+    .then(salt =>
+      bcrypt.hash(req.body.password, salt).then(async hash => {
+        return hash;
+      })
+    )
+    .catch(error => console.log('Error create User', error));
+  const newUser = {
     firstname: req.body.firstname,
     lastname: req.body.lastname,
     email: req.body.email,
-    password: req.body.password
-  });
+    hashedPassword
+  };
+  User.create(newUser);
+  console.log('New user created', newUser);
   return res.send({
-    createdUser: { email: req.body.email, password: req.body.password }
+    createdUser: newUser
   });
 };
 
