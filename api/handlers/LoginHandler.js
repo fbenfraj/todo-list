@@ -13,16 +13,13 @@ const loginUser = async (req, res) => {
       } else {
         const userPassword = foundUser.password;
         bcrypt.compare(password, userPassword).then(result => {
-          console.log(userPassword, password);
           if (result) {
-            // const token = jwt.sign({ email }, config["secret"], {
-            //     expiresIn: '24h'
-            // })
-            // res.status(200).send(token);
-            console.log('ok');
+            const token = jwt.sign({ email }, config["secret"], {
+                expiresIn: '24h'
+            })
+            res.status(200).send({ token: token});
           } else {
-            // res.status(401).json({ message: 'Incorrect password' });
-            console.log(result);
+            res.status(401).json({ message: 'Incorrect password' });
           }
         });
       }
