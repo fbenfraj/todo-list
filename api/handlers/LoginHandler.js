@@ -17,6 +17,7 @@ const loginUser = async (req, res) => {
             const token = jwt.sign({ email }, config["secret"], {
                 expiresIn: '24h'
             })
+            console.log('User logged in:', foundUser.email);
             res.status(200).send({ token: token});
           } else {
             res.status(401).json({ message: 'Incorrect password' });

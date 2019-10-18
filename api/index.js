@@ -23,6 +23,7 @@ app.get('/ping', (req, res) => {
 
 require('./routes/users')(app)
 require('./routes/login')(app)
+require('./routes/todos')(app)
 
 app.listen(config['server-port'], () => {
   console.log(`Listening on port ${config['server-port']}...`);
