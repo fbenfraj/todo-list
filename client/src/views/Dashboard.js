@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import List from '@material-ui/core/List';
@@ -12,6 +12,8 @@ import Grid from '@material-ui/core/Grid';
 import FolderIcon from '@material-ui/icons/Folder';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ButtonAppBar from '../components/ButtonAppBar';
+import Button from '@material-ui/core/Button';
+import axios from 'axios';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -36,22 +38,48 @@ function generate(element) {
 
 const Dashboard = () => {
   const classes = useStyles();
+  const [todo, setTodo] = useState('');
+
+  async function addTodo(e) {
+    e.preventDefault();
+    await axios.post('http://localhost:8000/todos', {
+      user: 'me',
+      text: todo
+    });
+    setTodo('');
+  }
 
   return (
     <div>
       <ButtonAppBar />
-      <TextField
-        id='standard-full-width'
-        label='New TODO'
-        style={{ margin: 8 }}
-        placeholder='Add a new TODO here! :)'
-        helperText='<3'
-        fullWidth
-        margin='normal'
-        InputLabelProps={{
-          shrink: true
-        }}
-      />
+      <Grid item xs={12} md={12}>
+        <form onSubmit={(e) => addTodo(e)} style={{ display: 'flex', margin: 8 }}>
+          <TextField
+            id='standard-full-width'
+            label='New TODO'
+            placeholder='Add a new TODO here! :)'
+            helperText='<3'
+            margin='normal'
+            InputLabelProps={{
+              shrink: true
+            }}
+            value={todo}
+            onChange={e => {
+              setTodo(e.target.value);
+            }}
+            style={{ flexGrow: 1 }}
+          />
+          <Button
+            type='submit'
+            style={{ margin: 15 }}
+            variant='contained'
+            color='primary'
+            className={classes.submit}
+          >
+            ADD
+          </Button>
+        </form>
+      </Grid>
       <Grid item xs={12} md={12}>
         <div className={classes.demo}>
           <List>

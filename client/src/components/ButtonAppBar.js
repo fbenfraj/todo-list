@@ -5,6 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { Route, Redirect } from 'react-router-dom';
+import { eraseCookie } from '../utils/cookies';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -22,6 +23,11 @@ export default function ButtonAppBar() {
   const classes = useStyles();
   const [isLoggedOut, setIsLoggedOut] = useState(false);
 
+  const logout = () => {
+    eraseCookie("JWT");
+    setIsLoggedOut(true);
+  }
+
   return (
     <div className={classes.root}>
       <AppBar position='static'>
@@ -34,7 +40,7 @@ export default function ButtonAppBar() {
           <Typography variant='h6' className={classes.title}>
             TO DO
           </Typography>
-          <Button color='inherit' onClick={() => setIsLoggedOut(true)}>Logout</Button>
+          <Button color='inherit' onClick={logout}>Logout</Button>
         </Toolbar>
       </AppBar>
     </div>

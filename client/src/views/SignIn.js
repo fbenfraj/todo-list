@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
+import { setCookie } from '../utils/cookies'
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -48,6 +49,7 @@ export default function SignIn(props) {
       password
     });
     if (response.status === 200) {
+      setCookie("JWT", response.data.token, 7)
       setIsLoggedIn(true);
     }
   }
