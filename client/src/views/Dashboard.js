@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import List from '@material-ui/core/List';
@@ -28,17 +28,38 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function generate(element) {
-  return [0, 1, 2].map(value =>
-    React.cloneElement(element, {
-      key: value
-    })
-  );
-}
-
 const Dashboard = () => {
   const classes = useStyles();
   const [todo, setTodo] = useState('');
+  const [todosList, setTodosList] = useState([]);
+
+  useEffect(() => {
+    async function fetchTodos() {
+      const response = await axios.get('http://localhost:8000/todos');
+      if (response.status === 200) {
+        setTodosList(Object.values(response.data));
+      }
+    }
+    fetchTodos();
+  }, [todosList]);
+
+  const Todos = () => {
+    return todosList.map((value, index) => (
+      <ListItem key={index}>
+        <ListItemAvatar>
+          <Avatar>
+            <FolderIcon />
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText primary={value.text} />
+        <ListItemSecondaryAction>
+          <IconButton edge='end' aria-label='delete'>
+            <DeleteIcon />
+          </IconButton>
+        </ListItemSecondaryAction>
+      </ListItem>
+    ));
+  };
 
   async function addTodo(e) {
     e.preventDefault();
@@ -53,7 +74,7 @@ const Dashboard = () => {
     <div>
       <ButtonAppBar />
       <Grid item xs={12} md={12}>
-        <form onSubmit={(e) => addTodo(e)} style={{ display: 'flex', margin: 8 }}>
+        <form onSubmit={e => addTodo(e)} style={{ display: 'flex', margin: 8 }}>
           <TextField
             id='standard-full-width'
             label='New TODO'
@@ -83,21 +104,7 @@ const Dashboard = () => {
       <Grid item xs={12} md={12}>
         <div className={classes.demo}>
           <List>
-            {generate(
-              <ListItem>
-                <ListItemAvatar>
-                  <Avatar>
-                    <FolderIcon />
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary='Single-line item' />
-                <ListItemSecondaryAction>
-                  <IconButton edge='end' aria-label='delete'>
-                    <DeleteIcon />
-                  </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
-            )}
+            <Todos />
           </List>
         </div>
       </Grid>

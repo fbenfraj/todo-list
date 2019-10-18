@@ -13,6 +13,17 @@ const createTodo = async (req, res) => {
   });
 };
 
+const getTodos = (req, res) => {
+  Todo.find({}, function(err, todos) {
+    var todosMap = {};
+    todos.forEach(function(todo) {
+      todosMap[todo._id] = todo;
+    });
+    res.send(todosMap);
+  });
+};
+
 module.exports = {
-  createTodo
+  createTodo,
+  getTodos
 };
