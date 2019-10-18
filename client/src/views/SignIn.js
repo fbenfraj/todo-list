@@ -9,6 +9,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import axios from 'axios';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -38,6 +39,18 @@ const useStyles = makeStyles(theme => ({
 export default function SignIn(props) {
   const classes = useStyles();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  async function authenticate(email, password) {
+    const response = await axios.post('http://localhost:8000/login', {
+      email,
+      password
+    });
+    if (response.status === 200) {
+      setIsLoggedIn(true);
+    }
+  }
 
   return (
     <Container component='main' maxWidth='xs'>
@@ -54,7 +67,12 @@ export default function SignIn(props) {
         <Typography component='h1' variant='h5'>
           Sign in
         </Typography>
-        <form>
+        <form
+          onSubmit={e => {
+            e.preventDefault();
+            authenticate(email, password);
+          }}
+        >
           <TextField
             variant='outlined'
             margin='normal'
@@ -65,6 +83,9 @@ export default function SignIn(props) {
             name='email'
             autoComplete='email'
             autoFocus
+            onChange={e => {
+              setEmail(e.target.value);
+            }}
           />
           <TextField
             variant='outlined'
@@ -76,13 +97,16 @@ export default function SignIn(props) {
             type='password'
             id='password'
             autoComplete='current-password'
+            onChange={e => {
+              setPassword(e.target.value);
+            }}
           />
           <Button
+            type='submit'
             fullWidth
             variant='contained'
             color='primary'
             className={classes.submit}
-            onClick={() => setIsLoggedIn(true)}
           >
             Sign In
           </Button>
