@@ -1,48 +1,26 @@
-import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import { Route, Redirect } from 'react-router-dom';
-import { eraseCookie } from '../utils/cookies';
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1
-  },
-  menuButton: {
-    marginRight: theme.spacing(2)
-  },
-  title: {
-    flexGrow: 1
-  }
-}));
+import React, { useState } from "react";
+import { Route, Redirect } from "react-router-dom";
+import { eraseCookie } from "../utils/cookies";
 
 export default function ButtonAppBar() {
-  const classes = useStyles();
   const [isLoggedOut, setIsLoggedOut] = useState(false);
 
   const logout = () => {
     eraseCookie("JWT");
     setIsLoggedOut(true);
-  }
+  };
 
   return (
-    <div className={classes.root}>
-      <AppBar position='static'>
-        <Route
-          exact
-          path='/dashboard'
-          render={() => (isLoggedOut ? <Redirect to='/' /> : null)}
-        />
-        <Toolbar>
-          <Typography variant='h6' className={classes.title}>
-            TO DO
-          </Typography>
-          <Button color='inherit' onClick={logout}>Logout</Button>
-        </Toolbar>
-      </AppBar>
+    <div>
+      <Route
+        exact
+        path="/dashboard"
+        render={() => (isLoggedOut ? <Redirect to="/" /> : null)}
+      />
+      <nav>
+        <h6>TO DO</h6>
+        <button onClick={logout}>Logout</button>
+      </nav>
     </div>
   );
 }
