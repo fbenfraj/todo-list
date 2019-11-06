@@ -52,9 +52,23 @@ const Dashboard = () => {
       </div>
       <div>
         <div>
-          {todosList.map((value, index) => (
+          {todosList.map(value => (
             <ul key={value._id}>
               <li>
+                <input
+                  type='checkbox'
+                  value={value.done ? true : false}
+                  onChange={async e => {
+                    await axios.put(
+                      'http://localhost:8000/todos/' + value._id,
+                      {
+                        user: value.user,
+                        text: value.text,
+                        done: e.target.checked
+                      }
+                    );
+                  }}
+                />
                 <label>{value.text}</label>
                 <button type='button' onClick={() => deleteTodo(value._id)}>
                   Delete

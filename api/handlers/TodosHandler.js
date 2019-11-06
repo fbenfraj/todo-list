@@ -23,13 +23,26 @@ const getTodos = (req, res) => {
   });
 };
 
+const updateTodo = (req, res) => {
+  Todo.findByIdAndUpdate(req.params.id, req.body, (err, todo) => {
+    if (err) return res.status(500).send(err);
+    const response = {
+      message: 'Todo successfully updated',
+      todo: req.body
+    };
+    console.log('Todo updated', req.body);
+    return res.status(200).send(response);
+  });
+};
+
 const deleteTodo = (req, res) => {
   Todo.findByIdAndRemove(req.params.id, (err, todo) => {
     if (err) return res.status(500).send(err);
     const response = {
       message: 'Todo successfully deleted',
-      // id: todo._id
+      id: req.params.id
     };
+    console.log('Todo deleted', req.params.id);
     return res.status(200).send(response);
   });
 };
@@ -37,5 +50,6 @@ const deleteTodo = (req, res) => {
 module.exports = {
   createTodo,
   getTodos,
+  updateTodo,
   deleteTodo
 };
