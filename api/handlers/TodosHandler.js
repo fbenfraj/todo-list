@@ -23,7 +23,19 @@ const getTodos = (req, res) => {
   });
 };
 
+const deleteTodo = (req, res) => {
+  Todo.findByIdAndRemove(req.params.id, (err, todo) => {
+    if (err) return res.status(500).send(err);
+    const response = {
+      message: 'Todo successfully deleted',
+      // id: todo._id
+    };
+    return res.status(200).send(response);
+  });
+};
+
 module.exports = {
   createTodo,
-  getTodos
+  getTodos,
+  deleteTodo
 };

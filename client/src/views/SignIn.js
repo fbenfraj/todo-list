@@ -57,7 +57,6 @@ export default function SignIn(props) {
           />
           <button
             type="submit"
-            fullWidth
             variant="contained"
             color="primary"
           >
