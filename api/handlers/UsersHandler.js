@@ -14,7 +14,8 @@ const createUser = async (req, res) => {
     firstname: req.body.firstname,
     lastname: req.body.lastname,
     email: req.body.email,
-    password: hashedPassword
+    password: hashedPassword,
+    isAdmin: req.body.isAdmin
   };
   User.create(newUser);
   console.log('New user created', newUser);

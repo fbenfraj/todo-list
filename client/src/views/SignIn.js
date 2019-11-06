@@ -1,20 +1,20 @@
-import React, { useState } from "react";
-import { Route, Redirect, Link } from "react-router-dom";
-import axios from "axios";
-import { setCookie } from "../utils/cookies";
+import React, { useState } from 'react';
+import { Route, Redirect, Link } from 'react-router-dom';
+import axios from 'axios';
+import { setCookie } from '../utils/cookies';
 
-export default function SignIn(props) {
+export default function SignIn() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   async function authenticate(email, password) {
-    const response = await axios.post("http://localhost:8000/login", {
+    const response = await axios.post('http://localhost:8000/login', {
       email,
       password
     });
     if (response.status === 200) {
-      setCookie("JWT", response.data.token, 7);
+      setCookie('JWT', response.data.token, 7);
       setIsLoggedIn(true);
     }
   }
@@ -23,11 +23,11 @@ export default function SignIn(props) {
     <div>
       <Route
         exact
-        path="/"
-        render={() => (isLoggedIn ? <Redirect to="/dashboard" /> : null)}
+        path='/'
+        render={() => (isLoggedIn ? <Redirect to='/dashboard' /> : null)}
       />
       <div>
-        <h1>Sign in</h1>
+        <h1>Connexion</h1>
         <form
           onSubmit={e => {
             e.preventDefault();
@@ -35,38 +35,34 @@ export default function SignIn(props) {
           }}
         >
           <input
-            type="text"
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            type='text'
+            id='email'
+            label='Email Address'
+            name='email'
+            autoComplete='email'
             autoFocus
             onChange={e => {
               setEmail(e.target.value);
             }}
           />
           <input
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
+            name='password'
+            label='Password'
+            type='password'
+            id='password'
+            autoComplete='current-password'
             onChange={e => {
               setPassword(e.target.value);
             }}
           />
-          <button
-            type="submit"
-            variant="contained"
-            color="primary"
-          >
-            Sign In
+          <button type='submit' variant='contained' color='primary'>
+            Connexion
           </button>
           <div>
             <div></div>
             <div>
-              <Link to="/register" variant="body2">
-                {"Don't have an account? Sign Up"}
+              <Link to='/register' variant='body2'>
+                {"Vous n'avez pas de compte?"}
               </Link>
             </div>
           </div>

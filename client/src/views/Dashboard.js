@@ -57,7 +57,7 @@ const Dashboard = () => {
               <li>
                 <input
                   type='checkbox'
-                  value={value.done ? true : false}
+                  checked={value.done ? true : false}
                   onChange={async e => {
                     await axios.put(
                       'http://localhost:8000/todos/' + value._id,
