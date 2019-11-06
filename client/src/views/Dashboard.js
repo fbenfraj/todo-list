@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ButtonAppBar from '../components/ButtonAppBar';
 import axios from 'axios';
+import '../styles/Dashboard.scss';
 
 const Dashboard = () => {
   const [todo, setTodo] = useState('');
@@ -30,10 +31,10 @@ const Dashboard = () => {
   }
 
   return (
-    <div>
+    <>
       <ButtonAppBar />
-      <div>
-        <form onSubmit={e => addTodo(e)} style={{ display: 'flex', margin: 8 }}>
+      <section className='dashboard-form'>
+        <form onSubmit={e => addTodo(e)}>
           <input
             type='text'
             id='standard-full-width'
@@ -49,36 +50,31 @@ const Dashboard = () => {
             ADD
           </button>
         </form>
-      </div>
-      <div>
-        <div>
-          {todosList.map(value => (
-            <ul key={value._id}>
-              <li>
-                <input
-                  type='checkbox'
-                  checked={value.done ? true : false}
-                  onChange={async e => {
-                    await axios.put(
-                      'http://localhost:8000/todos/' + value._id,
-                      {
-                        user: value.user,
-                        text: value.text,
-                        done: e.target.checked
-                      }
-                    );
-                  }}
-                />
-                <label>{value.text}</label>
-                <button type='button' onClick={() => deleteTodo(value._id)}>
-                  Delete
-                </button>
-              </li>
-            </ul>
-          ))}
-        </div>
-      </div>
-    </div>
+      </section>
+      <section className='todos'>
+        {todosList.map(value => (
+          <ul key={value._id} className='todos-item'>
+            <li>
+              <input
+                type='checkbox'
+                checked={value.done ? true : false}
+                onChange={async e => {
+                  await axios.put('http://localhost:8000/todos/' + value._id, {
+                    user: value.user,
+                    text: value.text,
+                    done: e.target.checked
+                  });
+                }}
+              />
+              <label>{value.text}</label>
+              <button type='button' onClick={() => deleteTodo(value._id)}>
+                Delete
+              </button>
+            </li>
+          </ul>
+        ))}
+      </section>
+    </>
   );
 };
 

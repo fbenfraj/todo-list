@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Route, Redirect, Link } from 'react-router-dom';
 import axios from 'axios';
+import '../styles/SignIn.scss';
 import { setCookie } from '../utils/cookies';
 
 export default function SignIn() {
@@ -20,15 +21,16 @@ export default function SignIn() {
   }
 
   return (
-    <div>
+    <>
       <Route
         exact
         path='/'
         render={() => (isLoggedIn ? <Redirect to='/dashboard' /> : null)}
       />
-      <div>
-        <h1>Connexion</h1>
+      <main className='login'>
+        <h1 className='login-title'>Connexion</h1>
         <form
+          className='login-form'
           onSubmit={e => {
             e.preventDefault();
             authenticate(email, password);
@@ -40,6 +42,7 @@ export default function SignIn() {
             label='Email Address'
             name='email'
             autoComplete='email'
+            placeholder='Email'
             autoFocus
             onChange={e => {
               setEmail(e.target.value);
@@ -51,6 +54,7 @@ export default function SignIn() {
             type='password'
             id='password'
             autoComplete='current-password'
+            placeholder='Mot de passe'
             onChange={e => {
               setPassword(e.target.value);
             }}
@@ -67,7 +71,7 @@ export default function SignIn() {
             </div>
           </div>
         </form>
-      </div>
-    </div>
+      </main>
+    </>
   );
 }

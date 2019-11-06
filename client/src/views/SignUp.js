@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, Route, Redirect } from 'react-router-dom';
 import axios from 'axios';
+import '../styles/SignUp.scss';
 
 export default function SignUp() {
   const [firstname, setFirstname] = useState('');
@@ -30,9 +31,10 @@ export default function SignUp() {
         path='/register'
         render={() => (toLogin ? <Redirect to='/' /> : null)}
       />
-      <div>
-        <h1>Nouveau compte</h1>
+      <main className='register'>
+        <h1 className='register-title'>Nouveau compte</h1>
         <form
+          className='register-form'
           onSubmit={e => {
             e.preventDefault();
             createUser(firstname, lastname, email, password);
@@ -121,7 +123,7 @@ export default function SignUp() {
             </div>
           </div>
         </form>
-      </div>
+      </main>
     </div>
   );
 }
