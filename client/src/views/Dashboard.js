@@ -1,18 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import ButtonAppBar from '../components/ButtonAppBar';
 import axios from 'axios';
+import jwt from 'jsonwebtoken';
+import { getCookie } from '../utils/cookies';
 import '../styles/Dashboard.scss';
 
 const Dashboard = () => {
   const [todo, setTodo] = useState('');
+  const [author, setAuthor] = useState('');
   const [todosList, setTodosList] = useState([]);
 
   useEffect(() => {
+    const userJwt = getCookie('JWT');
+    const content = jwt.decode(userJwt);
+    console.log('Logged in as: ' + content.email);
+    setAuthor(content.email);
+  }, []);
+
+  useEffect(() => {
     async function fetchTodos() {
-      const response = await axios.get('http://localhost:8000/todos');
-      if (response.status === 200) {
-        setTodosList(Object.values(response.data));
-      }
+      const response = await axios.get('http://localhost:8000/todos/' + author);
+      setTodosList(Object.values(response.data));
     }
     fetchTodos();
   }, [todosList]);
@@ -20,7 +28,7 @@ const Dashboard = () => {
   async function addTodo(e) {
     e.preventDefault();
     await axios.post('http://localhost:8000/todos', {
-      user: 'me',
+      user: author,
       text: todo
     });
     setTodo('');

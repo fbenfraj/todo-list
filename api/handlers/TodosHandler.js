@@ -23,6 +23,16 @@ const getTodos = (req, res) => {
   });
 };
 
+const getTodosByUser = (req, res) => {
+  Todo.find({ user: req.params.user }, function(err, todos) {
+    var todosMap = {};
+    todos.forEach(function(todo) {
+      todosMap[todo._id] = todo;
+    });
+    res.send(todosMap);
+  });
+};
+
 const updateTodo = (req, res) => {
   Todo.findByIdAndUpdate(req.params.id, req.body, (err, todo) => {
     if (err) return res.status(500).send(err);
@@ -50,6 +60,7 @@ const deleteTodo = (req, res) => {
 module.exports = {
   createTodo,
   getTodos,
+  getTodosByUser,
   updateTodo,
   deleteTodo
 };
