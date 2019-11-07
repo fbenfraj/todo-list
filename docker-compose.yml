@@ -1,0 +1,34 @@
+version: "3"
+services:
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+
+  express:
+    image: node:latest
+    working_dir: /usr/src/app/todolist
+    ports:
+      - "8000:8000"
+    expose:
+      - "8000"
+    depends_on:
+      - mongo
+    volumes:
+      - ./api:/usr/src/app/todolist
+    command: bash -c "npm i && npm run dev"
+
+  react: 
+    image: node:latest
+    working_dir: /usr/src/app/todolist
+    ports:
+      - "3000:3000"
+    expose:
+      - "3000"
+    depends_on:
+      - express
+    volumes:
+      - ./client:/usr/src/app/todolist
+    command: bash -c "npm i && npm start"
+
