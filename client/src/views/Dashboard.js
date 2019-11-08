@@ -23,7 +23,7 @@ const Dashboard = () => {
       setTodosList(Object.values(response.data));
     }
     fetchTodos();
-  }, [todosList]);
+  }, [todosList, author]);
 
   async function addTodo(e) {
     e.preventDefault();
