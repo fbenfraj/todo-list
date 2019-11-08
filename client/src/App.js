@@ -8,22 +8,24 @@ import './App.css';
 
 function App() {
   return (
-    <Router>
-      <Switch>
-        <Route exact path='/'>
-          <SignIn />
-        </Route>
-        <Route exact path='/register'>
-          <SignUp />
-        </Route>
-        <Route exact path='/dashboard'>
-          <Dashboard />
-        </Route>
-        <Route exact path='/users'>
-          <Users />
-        </Route>
-      </Switch>
-    </Router>
+    <>
+      <Router>
+        <Switch>
+          <Route exact path='/'>
+            <SignIn />
+          </Route>
+          <Route exact path='/register'>
+            <SignUp />
+          </Route>
+          <Route exact path='/dashboard'>
+            <Dashboard />
+          </Route>
+          <Route exact path='/users'>
+            <Users />
+          </Route>
+        </Switch>
+      </Router>
+    </>
   );
 }
 

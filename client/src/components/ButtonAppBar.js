@@ -15,9 +15,11 @@ export default function ButtonAppBar() {
   useEffect(() => {
     const userJwt = getCookie('JWT');
     const content = jwt.decode(userJwt);
-    console.log('Administrator mode: ' + content.isAdmin);
-    setUser(content.email);
-    setIsAdmin(content.isAdmin);
+    if (content) {
+      console.log('Administrator mode: ' + content.isAdmin);
+      setUser(content.email);
+      setIsAdmin(content.isAdmin);
+    }
   }, []);
 
   const logout = () => {

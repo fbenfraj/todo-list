@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import ButtonAppBar from '../components/ButtonAppBar';
+import checkAuth from '../utils/auth';
 
 const Users = () => {
+  const [isLogged, setIsLogged] = useState(true);
   const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    checkAuth() ? setIsLogged(true) : setIsLogged(false);
+  }, []);
 
   useEffect(() => {
     async function fetchUsers() {
@@ -19,6 +26,7 @@ const Users = () => {
 
   return (
     <>
+      {isLogged ? <Redirect to='/users' /> : <Redirect to='/' />}
       <ButtonAppBar />
       <section className='users'>
         {users.map(user => (

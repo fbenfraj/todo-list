@@ -1,20 +1,29 @@
 import React, { useState, useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
 import ButtonAppBar from '../components/ButtonAppBar';
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import { getCookie } from '../utils/cookies';
+import checkAuth from '../utils/auth';
 import '../styles/Dashboard.scss';
 
 const Dashboard = () => {
+  const [isLogged, setIsLogged] = useState(true);
   const [todo, setTodo] = useState('');
   const [author, setAuthor] = useState('');
   const [todosList, setTodosList] = useState([]);
 
   useEffect(() => {
+    checkAuth() ? setIsLogged(true) : setIsLogged(false);
+  }, []);
+
+  useEffect(() => {
     const userJwt = getCookie('JWT');
     const content = jwt.decode(userJwt);
-    console.log('Logged in as: ' + content.email);
-    setAuthor(content.email);
+    if (content) {
+      console.log('Logged in as: ' + content.email);
+      setAuthor(content.email);
+    }
   }, []);
 
   useEffect(() => {
@@ -40,6 +49,7 @@ const Dashboard = () => {
 
   return (
     <>
+      {isLogged ? <Redirect to='/dashboard' /> : <Redirect to='/' />}
       <ButtonAppBar />
       <section className='dashboard-form'>
         <form onSubmit={e => addTodo(e)}>

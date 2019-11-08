@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route, Redirect, Link } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/SignIn.scss';
 import { setCookie } from '../utils/cookies';
+import checkAuth from '../utils/auth';
 
 export default function SignIn() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    checkAuth() ? setIsLoggedIn(true) : setIsLoggedIn(false);
+  }, []);
 
   async function authenticate(email, password) {
     const response = await axios.post('http://localhost:8000/login', {
