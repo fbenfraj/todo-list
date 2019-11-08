@@ -12,13 +12,14 @@ const loginUser = async (req, res) => {
         res.status(404).send({ message: 'User not found.' });
       } else {
         const userPassword = foundUser.password;
+        const isAdmin = foundUser.isAdmin;
         bcrypt.compare(password, userPassword).then(result => {
           if (result) {
-            const token = jwt.sign({ email }, config["secret"], {
-                expiresIn: '24h'
-            })
+            const token = jwt.sign({ email, isAdmin }, config['secret'], {
+              expiresIn: '24h'
+            });
             console.log('User logged in:', foundUser.email);
-            res.status(200).send({ token: token});
+            res.status(200).send({ token: token });
           } else {
             res.status(401).json({ message: 'Incorrect password' });
           }

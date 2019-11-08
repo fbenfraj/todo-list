@@ -34,7 +34,20 @@ const getUsers = (req, res) => {
   });
 };
 
+const deleteUser = (req, res) => {
+  User.findByIdAndRemove(req.params.id, (err, user) => {
+    if (err) return res.status(500).send(err);
+    const response = {
+      message: 'User successfully deleted',
+      id: req.params.id
+    };
+    console.log('User deleted', req.params.id);
+    return res.status(200).send(response);
+  });
+};
+
 module.exports = {
   createUser,
-  getUsers
+  getUsers,
+  deleteUser
 };

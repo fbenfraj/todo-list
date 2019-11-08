@@ -13,6 +13,10 @@ const Users = () => {
     fetchUsers();
   }, [users]);
 
+  const deleteUser = async id => {
+    await axios.delete('http://localhost:8000/users/' + id);
+  };
+
   return (
     <>
       <ButtonAppBar />
@@ -21,9 +25,9 @@ const Users = () => {
           <ul key={user._id} className='users-item'>
             <li>
               <label>{user.email}</label>
-              {/* <button type='button' onClick={() => deleteTodo(user._id)}>
+              <button type='button' onClick={() => deleteUser(user._id)}>
                 Delete
-              </button> */}
+              </button>
             </li>
           </ul>
         ))}
