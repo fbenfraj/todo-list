@@ -1,7 +1,7 @@
 const { User } = require('../models/UserModel');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const config = require('../../config');
+// const config = require('../../config');
 
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
@@ -15,7 +15,7 @@ const loginUser = async (req, res) => {
         const isAdmin = foundUser.isAdmin;
         bcrypt.compare(password, userPassword).then(result => {
           if (result) {
-            const token = jwt.sign({ email, isAdmin }, config['secret'], {
+            const token = jwt.sign({ email, isAdmin }, 'todolist-epitech', {
               expiresIn: '24h'
             });
             console.log('User logged in:', foundUser.email);
